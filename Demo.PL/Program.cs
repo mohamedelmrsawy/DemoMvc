@@ -1,5 +1,6 @@
 using Demo.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Demo.DataAccess.Repositories;
 
 namespace Demo.PL
 {
@@ -17,10 +18,11 @@ namespace Demo.PL
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-                //options.UseSqlServer(options.Configuration.);
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));              
             });
 
+
+            builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
             #endregion
 
 

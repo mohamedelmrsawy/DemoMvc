@@ -7,13 +7,22 @@ using System.Threading.Tasks;
 
 namespace Demo.DataAccess.Repositories
 {
-    class DepartmentRepositories
+    public class DepartmentRepositories(ApplicationDbContext dbContext) : IDepartmentRepositories
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext = dbContext;
 
-        public DepartmentRepositories(ApplicationDbContext dbContext)
+
+        public IEnumerable<Department> GetAll(bool WithTracking = false)
         {
-            this._dbContext = dbContext;
+            if (WithTracking)
+            {
+                return _dbContext.Departments.ToList();
+            }
+            else
+            {
+                return _dbContext.Departments.AsNoTracking().ToList();
+            }
+
         }
 
 
@@ -23,5 +32,26 @@ namespace Demo.DataAccess.Repositories
             return department;
         }
 
+
+
+        public int Update(Department department)
+        {
+            _dbContext.Departments.Update(department);
+            return _dbContext.SaveChanges();
+        }
+
+
+        public int Remove(Department department)
+        {
+            _dbContext.Departments.Remove(department);
+            return _dbContext.SaveChanges();
+        }
+
+
+        public int Add(Department department)
+        {
+            _dbContext.Departments.Add(department);
+            return _dbContext.SaveChanges();
+        }
     }
 }
