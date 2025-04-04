@@ -52,5 +52,19 @@ namespace Demo.PL.Controllers
 
 
         #endregion
+
+        #region Details Of Department
+        [HttpGet]
+
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var dept = _DeptServices.GetDepartmentById(id.Value);
+            if (dept is null) return NotFound();
+            return View(dept);
+        }
+
+        #endregion
+
     }
 }
