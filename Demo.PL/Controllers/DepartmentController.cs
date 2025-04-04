@@ -114,5 +114,53 @@ namespace Demo.PL.Controllers
 
         #endregion
 
+        #region Delete
+
+        [HttpGet]
+        
+        public IActionResult Delete(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var dept = _DeptServices.GetDepartmentById(id.Value);
+            if (dept is null) return NotFound();
+            return View(dept);
+        }
+
+        [HttpPost]
+
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                bool delete = _DeptServices.DeletedDepartment(id);
+                if (delete)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "!!!!!!!");
+                    return RedirectToAction(nameof(Delete));
+                }
+            }catch(Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    logger.LogError(ex.Message);
+                    return View("ErrorView", ex);
+                }
+            }
+
+        }
+
+
+        #endregion
+
     }
 }
