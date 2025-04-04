@@ -3,11 +3,11 @@ using Demo.PesnL.Services;
 
 namespace Demo.PL.Controllers
 {
-    public class DepartmentController(DepartmentServices DeptServices) : Controller
+    public class DepartmentController(IDepartmentServices _DeptServices) : Controller
     {
         public IActionResult Index()
         {
-            var depts = DeptServices.GetDepartmentById(10);
+            var depts = _DeptServices.GetAllDepartments();
             return View(depts);
         }
     }
