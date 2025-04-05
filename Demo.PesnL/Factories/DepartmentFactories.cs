@@ -36,7 +36,7 @@ namespace Demo.PesnL.Factories
             return new Department()
             {
                 Name = d.Name,
-                Code = d.code,
+                Code = d.Code,
                 Description = d.Description
             };
         }

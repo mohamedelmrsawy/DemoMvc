@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Demo.PesnL.DataTransferObject
 {
-    public class CreatedDepartmentDto
+    public class DepartmentDeleteDto
     {
-        [Required(ErrorMessage = "!!!!!!")]
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        [Required]
-        [Range(100,int.MaxValue)]
         public string Code { get; set; } = string.Empty;
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         public DateOnly DateOfCreation { get; set; }
-
+        public DateOnly LastModifiedOn { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? LastModifiedBy { get; set; }
     }
 }
