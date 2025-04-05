@@ -1,5 +1,5 @@
 ﻿using Demo.DataAccess.Models;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Departments;
 using Demo.PesnL.DataTransferObject;
 using Demo.PesnL.Factories;
 

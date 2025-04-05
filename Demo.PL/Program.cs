@@ -1,7 +1,8 @@
 using Demo.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Demo.DataAccess.Repositories;
 using Demo.PesnL.Services;
+using Demo.DataAccess.Repositories.Departments;
+
 
 namespace Demo.PL
 {
