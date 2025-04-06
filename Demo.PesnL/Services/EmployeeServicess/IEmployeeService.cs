@@ -10,11 +10,11 @@ namespace Demo.PesnL.Services.EmployeeServicess
 {
     interface IEmployeeService
     {
-        IEnumerable<Employee> GetAllEmployee(bool WithTracking);
+        IEnumerable<EmployeeDto> GetAllEmployee(bool WithTracking);
         EmployeeDetailsDto GetEmployeeById(int id);
         int CreateEmployee(CreateEmployeeDto dto);
         int UpdateEmployee(UpdateEmployeeDto dto);
-        int DeleteEmployee(int id);
+        bool DeleteEmployee(int id);
 
     }
 }

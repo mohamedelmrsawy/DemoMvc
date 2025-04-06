@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Demo.PesnL.Services;
 using Demo.DataAccess.Repositories.Departments;
 using Demo.DataAccess.Repositories.Employees;
+using Demo.PesnL.Profiles;
 
 
 namespace Demo.PL
@@ -28,6 +29,7 @@ namespace Demo.PL
             builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
             builder.Services.AddScoped<IDepartmentServices , DepartmentServices>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddAutoMapper(m => m.AddProfile(new MappingProfiles).Assembly);
             #endregion
 
 
