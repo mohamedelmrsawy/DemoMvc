@@ -1,4 +1,5 @@
-﻿using Demo.DataAccess.Models;
+﻿using AutoMapper;
+using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Employees;
 using Demo.PesnL.DataTransferObject.Employeess;
 using System;
@@ -9,61 +10,52 @@ using System.Threading.Tasks;
 
 namespace Demo.PesnL.Services.EmployeeServicess
 {
-    class EmployyServiec(IEmployeeRepository _employeeRepository) : IEmployeeService
+    class EmployyServiec(IEmployeeRepository _employeeRepository , IMapper _mapper) : IEmployeeService
     {
-        public IEnumerable<Employee> GetAllEmployee(bool WithTracking)
+        public IEnumerable<EmployeeDto> GetAllEmployee(bool WithTracking)
         {
             var Employee = _employeeRepository.GetAll(WithTracking);
-            var empDto = Employee.Select(e => new Employee()
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Age = e.Age,
-                Email = e.Email,
-                IsActive = e.IsActive,
-                Salary = e.Salary,
-                EmployeeType = e.EmployeeType,
-                Gender = e.Gender
-            });
+            var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employee);
+            //var empDto = Employee.Select(e => new Employee()
+            //{
+            //    Id = e.Id,
+            //    Name = e.Name,
+            //    Age = e.Age,
+            //    Email = e.Email,
+            //    IsActive = e.IsActive,
+            //    Salary = e.Salary,
+            //    EmployeeType = e.EmployeeType,
+            //    Gender = e.Gender
+            //});
             return empDto;
         }
 
         public EmployeeDetailsDto GetEmployeeById(int id)
         {
             var emp = _employeeRepository.GetById(id);
-            return emp is null ? null : new EmployeeDetailsDto()
-            {
-                Id = emp.Id,
-                Name = emp.Name,
-                Salary = emp.Salary,
-                Address = emp.Address,
-                Age = emp.Age,
-                Email = emp.Email,
-                HiringDate = DateOnly.FromDateTime(emp.HiringDate),
-                IsActive = emp.IsActive,
-                PhoneNumber = emp.PhonNumber,
-                EmployeeType = emp.EmployeeType.ToString(),
-                Gender = emp.Gender.ToString(),
-                CreatedBy = 1,
-                CreatedOn = emp.CreatedOn,
-                LastModifiedBy = 1,
-                LastModifiedOn = (DateTime)emp.LastModifiedOn
-            };
+            return emp is null ? null : _mapper.Map<Employee, EmployeeDetailsDto>(emp);
         }
 
         public int CreateEmployee(CreateEmployeeDto dto)
         {
-            throw new NotImplementedException();          
+            var emp = _mapper.Map<CreateEmployeeDto, Employee>(dto);
+            return _employeeRepository.Add(emp);
         }
 
-        public int DeleteEmployee(int id)
+        public bool DeleteEmployee(int id)
         {
-            throw new NotImplementedException();
+            var emp = _employeeRepository.GetById(id);
+            if (emp is null) return false;
+            else
+            {
+                emp.InDeleted = true;
+                return _employeeRepository.Update(emp) > 0 ? true : false;
+            }
         }
 
         public int UpdateEmployee(UpdateEmployeeDto dto)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.Update(_mapper.Map<UpdateEmployeeDto, Employee>(dto));
         }
     }
 }
