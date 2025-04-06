@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Demo.PesnL.Services.EmployeeServicess
 {
-    class EmployyServiec(IEmployeeRepository _employeeRepository , IMapper _mapper) : IEmployeeService
+    public class EmployyServiec(IEmployeeRepository _employeeRepository , IMapper _mapper) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployee(bool WithTracking)
         {
