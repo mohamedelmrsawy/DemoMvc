@@ -2,6 +2,7 @@ using Demo.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Demo.PesnL.Services;
 using Demo.DataAccess.Repositories.Departments;
+using Demo.DataAccess.Repositories.Employees;
 
 
 namespace Demo.PL
@@ -26,6 +27,7 @@ namespace Demo.PL
 
             builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
             builder.Services.AddScoped<IDepartmentServices , DepartmentServices>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             #endregion
 
 
