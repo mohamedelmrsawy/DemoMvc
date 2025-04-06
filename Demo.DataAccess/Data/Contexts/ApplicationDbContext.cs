@@ -8,6 +8,7 @@ namespace Demo.DataAccess.Data.Contexts
     {
 
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
