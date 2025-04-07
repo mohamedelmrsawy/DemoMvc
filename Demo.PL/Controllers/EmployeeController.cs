@@ -63,5 +63,69 @@ namespace Demo.PL.Controllers
         }
 
         #endregion
+
+        #region Edit
+
+        [HttpGet]
+
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var emp = _service.GetEmployeeById(id.Value);
+            if (emp is null) return NotFound();
+
+            var empDto = new UpdatedDepartmentDto()
+            {
+                Id = emp.Id,
+                Name = emp.Name,
+
+            };
+            return View(empDto);
+        }
+
+        [HttpPost]
+
+        public IActionResult Edit([FromRoute]int? id ,UpdateEmployeeDto dto)
+        {
+            if (!id.HasValue || id != dto.Id) return BadRequest();
+            if (!ModelState.IsValid) return View(dto);
+            try
+            {
+                var Result = _service.UpdateEmployee(dto);
+                if (Result > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "!!!!!!");
+                    return View(dto);
+                }
+
+
+
+
+            }catch(Exception ex)
+            {
+
+
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return View(dto);
+                }
+                else
+                {
+                    logger.LogError(ex.Message);
+                    return View("ErrorView", ex);
+                }
+
+
+            }
+
+        }
+
+        #endregion
+
     }
 }
