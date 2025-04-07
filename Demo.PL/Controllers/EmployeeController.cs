@@ -127,5 +127,44 @@ namespace Demo.PL.Controllers
 
         #endregion
 
+        #region Delete
+
+        [HttpPost]
+
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                bool delete = _service.DeleteEmployee(id);
+                if (delete)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "!!!!!!!");
+                    return RedirectToAction(nameof(Delete));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    logger.LogError(ex.Message);
+                    return View("ErrorView", ex);
+                }
+            }
+
+        }
+
+
+        #endregion
+
     }
 }
