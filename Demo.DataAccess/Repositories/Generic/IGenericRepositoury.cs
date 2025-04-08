@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.Generic
 {
@@ -11,9 +7,19 @@ namespace Demo.DataAccess.Repositories.Generic
 
         public int Add(T entity);
         public IEnumerable<T> GetAll(bool WithTracking = false);
+        //public IEnumerable<TResult> GetAll<TResult>(Exception<Func<T, TResult>> selector);
         public T? GetById(int id);
         public int Remove(T entity);
         public int Update(T entity);
 
+        IEnumerable<T> GetEnumerable();
+
+        IQueryable<T> GetQuerable();
+
+
     }
+
+    //public class Exception<T>
+    //{
+    //}
 }
