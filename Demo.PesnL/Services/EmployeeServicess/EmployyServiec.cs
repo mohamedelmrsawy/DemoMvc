@@ -14,8 +14,24 @@ namespace Demo.PesnL.Services.EmployeeServicess
     {
         public IEnumerable<EmployeeDto> GetAllEmployee(bool WithTracking)
         {
+
+
+            //var Result = _employeeRepository.GetEnumerable().Where(e => e.InDeleted != true).Select(e => new EmployeeDto
+            //{
+            //    Id = e.Id,
+            //    Name = e.Name,
+            //    Age = e.Age,
+            //    Salary = e.Salary
+            //}).Where(e => e.Age > 25);
+
+            //return Result.ToList();
+
             var Employee = _employeeRepository.GetAll(WithTracking);
             var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employee);
+
+
+
+
             //var empDto = Employee.Select(e => new Employee()
             //{
             //    Id = e.Id,

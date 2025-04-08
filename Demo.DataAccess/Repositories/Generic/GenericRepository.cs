@@ -1,6 +1,5 @@
 ﻿using Demo.DataAccess.Data.Contexts;
 
-
 namespace Demo.DataAccess.Repositories.Generic
 {
     public class GenericRepository<T>(ApplicationDbContext _dbContext) : IGenericRepositoury<T> where T : BaseClass
@@ -46,6 +45,21 @@ namespace Demo.DataAccess.Repositories.Generic
             _dbContext.Set<T>().Add(entity);
             return _dbContext.SaveChanges();
         }
+
+        public IEnumerable<T> GetEnumerable()
+        {
+            return _dbContext.Set<T>();
+        }
+
+        public IQueryable<T> GetQuerable()
+        {
+            return _dbContext.Set<T>();
+        }
+
+        //public IEnumerable<TResult> GetAll<TResult>(Exception<Func<T, TResult>> selector)
+        //{
+        //    return _dbContext.Set<T>().Where(e => e.InDeleted != true).Select(selector);
+        //}
     }
 }
 
