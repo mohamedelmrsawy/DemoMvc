@@ -24,18 +24,38 @@ namespace Demo.PL.Controllers
 
         [HttpPost]
 
-        public IActionResult Create(CreatedDepartmentDto dept)
+        public IActionResult Create(DepartmentViewModel dept)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int Result = _DeptServices.AddDepartment(dept);
+                    var dept2 = new CreatedDepartmentDto()
+                    {
+                        Name = dept.Name,
+                        Code = dept.Code,
+                        DateOfCreation = dept.DateOfCreation,
+                        Description = dept.Description
+                    };
+                    int Result = _DeptServices.AddDepartment(dept2);
+                    string Message;
+                    //if (Result > 0)
+                    //    return RedirectToAction(nameof(Index));
+                    //else
+                    //    ModelState.AddModelError(string.Empty, "Department can not creating");
+
                     if (Result > 0)
-                        return RedirectToAction(nameof(Index));
+                    {
+                        Message = $"Department {dept.Name} is Created ";                      
+                    }
                     else
-                        ModelState.AddModelError(string.Empty, "Department can not creating");
+                    {
+                        Message = $"Department {dept.Name} is Created ";
+                    }
+                    TempData["Message"] = Message ;
+                    return RedirectToAction(nameof(Index));
+
                 }
                 catch(Exception ex)
                 {
