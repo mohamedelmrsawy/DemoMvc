@@ -11,6 +11,9 @@ namespace Demo.PL.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Message"] = new DepartmentDbo() { Name = "View Data" };
+            ViewBag.Message = new DepartmentDbo() { Name = "View Bag" };
+
             var depts = _DeptServices.GetAllDepartments();
             return View(depts);
         }
