@@ -8,11 +8,13 @@ namespace Demo.PL.Controllers
 {
     public class EmployeeController(IEmployeeService _service , ILogger<EmployeeController> logger, IWebHostEnvironment _environment) : Controller
     {
+        #region Index
         public IActionResult Index()
         {
             var emp = _service.GetAllEmployee();
             return View(emp);
-        }
+        } 
+        #endregion
 
         #region Create
         [HttpGet]
