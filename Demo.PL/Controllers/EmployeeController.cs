@@ -1,6 +1,7 @@
 ﻿using Demo.PesnL.DataTransferObject;
 using Demo.PesnL.DataTransferObject.Employeess;
 using Demo.PesnL.Services.EmployeeServicess;
+using Demo.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.PL.Controllers
@@ -15,18 +16,36 @@ namespace Demo.PL.Controllers
 
         #region Create
         [HttpGet]
-        public IActionResult Create() => View();
+        public IActionResult Create() 
+        {
+            return View();
+        }
 
         [HttpPost]
 
-        public IActionResult Create(CreateEmployeeDto dept)
+        public IActionResult Create(EmployeeViewModel dept)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int Result = _service.CreateEmployee(dept);
+                    var empdto = new CreateEmployeeDto()
+                    {
+                        Name = dept.Name,
+                        Age = dept.Age,
+                        Address = dept.Address,
+                        Email = dept.Email,
+                        EmployeeType = dept.EmployeeType,
+                        Gender = dept.Gender,
+                        HiringDate = dept.HiringDate,
+                        IsActive = dept.IsActive,
+                        PhoneNumber = dept.PhoneNumber,
+                        Salary = dept.Salary,
+                        DepartmentId = dept.DepartmentId
+                    };
+
+                    int Result = _service.CreateEmployee(empdto);
                     if (Result > 0)
                         return RedirectToAction(nameof(Index));
                     else
@@ -74,10 +93,17 @@ namespace Demo.PL.Controllers
             var emp = _service.GetEmployeeById(id.Value);
             if (emp is null) return NotFound();
 
-            var empDto = new UpdatedDepartmentDto()
+            var empDto = new EmployeeViewModel()
             {
-                Id = emp.Id,
                 Name = emp.Name,
+                Address = emp.Address,
+                Age = emp.Age,
+                Email = emp.Email,
+                HiringDate = emp.HiringDate,
+                IsActive = emp.IsActive,
+                PhoneNumber = emp.PhoneNumber,
+                Salary = emp.Salary,
+                
 
             };
             return View(empDto);
@@ -85,13 +111,27 @@ namespace Demo.PL.Controllers
 
         [HttpPost]
 
-        public IActionResult Edit([FromRoute]int? id ,UpdateEmployeeDto dto)
+        public IActionResult Edit([FromRoute]int? id , EmployeeViewModel dto)
         {
-            if (!id.HasValue || id != dto.Id) return BadRequest();
+            if (!id.HasValue ) return BadRequest();
             if (!ModelState.IsValid) return View(dto);
             try
             {
-                var Result = _service.UpdateEmployee(dto);
+                var empdto = new UpdateEmployeeDto()
+                {
+                    Id = id.Value,
+                    Name = dto.Name,
+                    Address = dto.Address,
+                    Age = dto.Age,
+                    Email = dto.Email,
+                    HiringDate = dto.HiringDate,
+                    IsActive = dto.IsActive,
+                    PhoneNumber = dto.PhoneNumber,
+                    Salary = dto.Salary,
+                    DepartmentId = dto.DepartmentId
+                    
+                };
+                var Result = _service.UpdateEmployee(empdto);
                 if (Result > 0)
                 {
                     return RedirectToAction(nameof(Index));
