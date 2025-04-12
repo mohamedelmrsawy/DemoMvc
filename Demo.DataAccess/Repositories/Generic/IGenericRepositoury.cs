@@ -7,7 +7,8 @@ namespace Demo.DataAccess.Repositories.Generic
 
         public int Add(T entity);
         public IEnumerable<T> GetAll(bool WithTracking = false);
-        //public IEnumerable<TResult> GetAll<TResult>(Exception<Func<T, TResult>> selector);
+        public IEnumerable<T> GetAll(Expression<Func<T , bool>> Predicate);
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<T, TResult>> selector);
         public T? GetById(int id);
         public int Remove(T entity);
         public int Update(T entity);
