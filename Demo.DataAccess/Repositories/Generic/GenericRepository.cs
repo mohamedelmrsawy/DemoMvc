@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Data.Contexts;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.Generic
 {
@@ -56,10 +57,16 @@ namespace Demo.DataAccess.Repositories.Generic
             return _dbContext.Set<T>();
         }
 
-        //public IEnumerable<TResult> GetAll<TResult>(Exception<Func<T, TResult>> selector)
-        //{
-        //    return _dbContext.Set<T>().Where(e => e.InDeleted != true).Select(selector);
-        //}
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> Predicate)
+        {
+            return _dbContext.Set<T>().Where(Predicate).ToList();
+        }
+
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<T, TResult>> selector)
+        {
+            return _dbContext.Set<T>().Where(e => e.InDeleted != true).Select(selector);
+        }
+
     }
 }
 

@@ -9,9 +9,9 @@ namespace Demo.PL.Controllers
     public class EmployeeController(IEmployeeService _service , ILogger<EmployeeController> logger, IWebHostEnvironment _environment) : Controller
     {
         #region Index
-        public IActionResult Index()
+        public IActionResult Index(string? empSearsh)
         {
-            var emp = _service.GetAllEmployee();
+            var emp = _service.GetAllEmployee(empSearsh);
             return View(emp);
         } 
         #endregion
