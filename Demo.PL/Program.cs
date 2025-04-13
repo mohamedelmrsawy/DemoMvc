@@ -5,6 +5,7 @@ using Demo.DataAccess.Repositories.Departments;
 using Demo.DataAccess.Repositories.Employees;
 using Demo.PesnL.Profiles;
 using Demo.PesnL.Services.EmployeeServicess;
+using Demo.DataAccess.Repositories.UnitOfWorks;
 
 
 namespace Demo.PL
@@ -32,6 +33,7 @@ namespace Demo.PL
             builder.Services.AddScoped<IDepartmentServices , DepartmentServices>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployyServiec>();
+            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             //builder.Services.AddAutoMapper(m => m.AddProfile(new MappingProfiles).Assembly);
             #endregion
 
