@@ -1,18 +1,19 @@
 ﻿using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Departments;
+using Demo.DataAccess.Repositories.UnitOfWorks;
 using Demo.PesnL.DataTransferObject;
 using Demo.PesnL.Factories;
 
 namespace Demo.PesnL.Services
 {
-    public class DepartmentServices(IDepartmentRepositories _departmentRepositories) : IDepartmentServices
+    public class DepartmentServices(IUnitOfWork _unitOfWork) : IDepartmentServices
     {
         //private readonly IDepartmentRepositories departmentRepositories = _departmentRepositories;
 
 
         public IEnumerable<DepartmentDbo> GetAllDepartments()
         {
-            var department = _departmentRepositories.GetAll();
+            var department = _unitOfWork.departmentRepositories.GetAll();
 
 
             return department.Select(d => d.ToDepartmentDbo());
@@ -20,7 +21,7 @@ namespace Demo.PesnL.Services
 
         public DepartmentDetilsDbo GetDepartmentById(int id)
         {
-            var department = _departmentRepositories.GetById(id);
+            var department = _unitOfWork.departmentRepositories.GetById(id);
 
             if (department is null)
             {
@@ -42,17 +43,19 @@ namespace Demo.PesnL.Services
         public int AddDepartment(CreatedDepartmentDto d)
         {
             var dept = d.ToEntity();
-            return _departmentRepositories.Add(dept);
+            _unitOfWork.departmentRepositories.Add(dept);
+            return _unitOfWork.SaveChanges();
         }
 
         public int UpdateDepartment(UpdatedDepartmentDto d)
         {
-            return _departmentRepositories.Update(d.ToEntity());
+            _unitOfWork.departmentRepositories.Update(d.ToEntity());
+            return _unitOfWork.SaveChanges();
         }
 
         public bool DeletedDepartment(int id)
         {
-            var Dept = _departmentRepositories.GetById(id);
+            var Dept = _unitOfWork.departmentRepositories.GetById(id);
 
             if (Dept is null)
             {
@@ -60,8 +63,8 @@ namespace Demo.PesnL.Services
             }
             else
             {
-                int R = _departmentRepositories.Remove(Dept);
-                return R > 0 ? true : false;
+                _unitOfWork.departmentRepositories.Remove(Dept);
+                return _unitOfWork.SaveChanges() > 0 ? true : false;
             }
 
         }
