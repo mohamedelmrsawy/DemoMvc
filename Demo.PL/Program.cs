@@ -29,9 +29,9 @@ namespace Demo.PL
             });
 
 
-            builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
+            //builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
             builder.Services.AddScoped<IDepartmentServices , DepartmentServices>();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployyServiec>();
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             //builder.Services.AddAutoMapper(m => m.AddProfile(new MappingProfiles).Assembly);
