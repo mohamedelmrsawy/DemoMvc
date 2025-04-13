@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Employees;
+using Demo.DataAccess.Repositories.UnitOfWorks;
 using Demo.PesnL.DataTransferObject.Employeess;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,21 @@ using System.Threading.Tasks;
 
 namespace Demo.PesnL.Services.EmployeeServicess
 {
-    public class EmployyServiec(IEmployeeRepository _employeeRepository , IMapper _mapper) : IEmployeeService
+    public class EmployyServiec(IUnitOfWork _unitOfWork , IMapper _mapper) : IEmployeeService
     {
-        public IEnumerable<EmployeeDto> GetAllEmployee(bool WithTracking)
+        public IEnumerable<EmployeeDto> GetAllEmployee(string? empSearsh)
         {
+
+            IEnumerable<Employee> employees;
+
+            if (string.IsNullOrWhiteSpace(empSearsh))
+            {
+                // employees = _employeeRepository.GetAll();
+                employees = _unitOfWork.employeeRepository.GetAll();
+            }else
+            {
+                employees = _unitOfWork.employeeRepository.GetAll(e => e.Name.ToLower().Contains(empSearsh.ToLower()));
+            }
 
 
             //var Result = _employeeRepository.GetEnumerable().Where(e => e.InDeleted != true).Select(e => new EmployeeDto
@@ -26,9 +38,9 @@ namespace Demo.PesnL.Services.EmployeeServicess
 
             //return Result.ToList();
 
-            var Employee = _employeeRepository.GetAll(WithTracking);
-            var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employee);
-
+            //var Employee = _employeeRepository.GetAll(e => e.Name.ToLower().Contains(empSearsh.ToLower()));
+            var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+            return empDto;
 
 
 
@@ -43,35 +55,38 @@ namespace Demo.PesnL.Services.EmployeeServicess
             //    EmployeeType = e.EmployeeType,
             //    Gender = e.Gender
             //});
-            return empDto;
+
         }
 
         public EmployeeDetailsDto GetEmployeeById(int id)
         {
-            var emp = _employeeRepository.GetById(id);
+            var emp = _unitOfWork.employeeRepository.GetById(id);
             return emp is null ? null : _mapper.Map<Employee, EmployeeDetailsDto>(emp);
         }
 
         public int CreateEmployee(CreateEmployeeDto dto)
         {
             var emp = _mapper.Map<CreateEmployeeDto, Employee>(dto);
-            return _employeeRepository.Add(emp);
+            _unitOfWork.employeeRepository.Add(emp);
+            return _unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmployee(int id)
         {
-            var emp = _employeeRepository.GetById(id);
+            var emp = _unitOfWork.employeeRepository.GetById(id);
             if (emp is null) return false;
             else
             {
                 emp.InDeleted = true;
-                return _employeeRepository.Update(emp) > 0 ? true : false;
+                _unitOfWork.employeeRepository.Update(emp) ;
+                return _unitOfWork.SaveChanges() > 0 ? true : false;
             }
         }
 
         public int UpdateEmployee(UpdateEmployeeDto dto)
         {
-            return _employeeRepository.Update(_mapper.Map<UpdateEmployeeDto, Employee>(dto));
+            _unitOfWork.employeeRepository.Update(_mapper.Map<UpdateEmployeeDto, Employee>(dto));
+            return _unitOfWork.SaveChanges();
         }
     }
 }
