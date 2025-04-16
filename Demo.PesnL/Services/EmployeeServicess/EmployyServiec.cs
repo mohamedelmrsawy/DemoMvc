@@ -3,6 +3,7 @@ using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Employees;
 using Demo.DataAccess.Repositories.UnitOfWorks;
 using Demo.PesnL.DataTransferObject.Employeess;
+using Demo.PesnL.Services.AttachementService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Demo.PesnL.Services.EmployeeServicess
 {
-    public class EmployyServiec(IUnitOfWork _unitOfWork , IMapper _mapper) : IEmployeeService
+
     {
         public IEnumerable<EmployeeDto> GetAllEmployee(string? empSearsh)
         {
@@ -38,9 +39,16 @@ namespace Demo.PesnL.Services.EmployeeServicess
 
             //return Result.ToList();
 
+
+            var Employee = _employeeRepository.GetAll(WithTracking);
+
+            var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employee);
+
+
             //var Employee = _employeeRepository.GetAll(e => e.Name.ToLower().Contains(empSearsh.ToLower()));
             var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
             return empDto;
+
 
 
 
