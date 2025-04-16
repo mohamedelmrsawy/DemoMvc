@@ -28,6 +28,7 @@ namespace Demo.PesnL.Services.EmployeeServicess
             //return Result.ToList();
 
             var Employee = _employeeRepository.GetAll(WithTracking);
+
             var empDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(Employee);
 
 
