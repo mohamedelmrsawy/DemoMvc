@@ -14,6 +14,9 @@ namespace Demo.DataAccess.Data.Configuration
             builder.Property(d => d.Code).HasColumnType("VarChar(20)");
             builder.Property(d => d.CreatedOn).HasDefaultValueSql("GETDATE()");
             builder.Property(d => d.LastModifiedOn).HasComputedColumnSql("GETDATE()");
+
+            builder.HasMany(d => d.employees).WithOne(e => e.department).HasForeignKey(e => e.DepartmentId);
+
         }
     }
 }
