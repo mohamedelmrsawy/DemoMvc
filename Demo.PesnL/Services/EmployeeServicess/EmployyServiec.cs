@@ -2,6 +2,7 @@
 using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.Employees;
 using Demo.PesnL.DataTransferObject.Employeess;
+using Demo.PesnL.Services.AttachementService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Demo.PesnL.Services.EmployeeServicess
 {
-    public class EmployyServiec(IEmployeeRepository _employeeRepository , IMapper _mapper) : IEmployeeService
+    public class EmployyServiec(IEmployeeRepository _employeeRepository , IMapper _mapper , IAttachementService attachementService) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployee(bool WithTracking)
         {
