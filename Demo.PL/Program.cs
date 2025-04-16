@@ -21,7 +21,6 @@ namespace Demo.PL
             #region servies (Add services to the container.)
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));    
@@ -29,9 +28,9 @@ namespace Demo.PL
             });
 
 
-            builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
+            //builder.Services.AddScoped<IDepartmentRepositories , DepartmentRepositories>();
             builder.Services.AddScoped<IDepartmentServices , DepartmentServices>();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IEmployeeService, EmployyServiec>();
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             //builder.Services.AddAutoMapper(m => m.AddProfile(new MappingProfiles).Assembly);
