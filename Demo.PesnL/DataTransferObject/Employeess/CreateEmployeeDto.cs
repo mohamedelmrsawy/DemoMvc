@@ -7,13 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.PesnL.DataTransferObject
+namespace Demo.PesnL.DataTransferObject.Employeess
 {
-    public class UpdatedDepartmentDto
+    public class CreateEmployeeDto
     {
-        public int Id { get; set; }
-        public string? Description { get; set; }
- 
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
         [MinLength(5, ErrorMessage = "Min length should be 5 characters")]
