@@ -3,7 +3,7 @@
 
 namespace Demo.DataAccess.Repositories.Employees
 {
-    interface IEmployeeRepository : IGenericRepositoury<Employee>
+    public interface IEmployeeRepository : IGenericRepositoury<Employee>
     {
     }
 }
